@@ -14,10 +14,13 @@ if (Deno.build.os === "windows") {
 }
 
 let roomData: Record<string, unknown> = {};
+let json = "";
 try {
-  const json = await Deno.readTextFile(chdir + "/pages/dice/data.json");
+  json = await Deno.readTextFile(chdir + "/pages/dice/data.json");
   roomData = JSON.parse(json);
 } catch (e) {
+  Deno.writeTextFile(chdir + "/pages/dice/data.json", JSON.stringify({ rooms: [] }, null, 2));
+  roomData["rooms"] = [];
   console.error(e);
 }
 const defaultDiceCount = 3;
