@@ -117,7 +117,6 @@ async function handler(req: Request): Promise<Response> {
       const message = await req.text();
       //log.info(JSON.stringify(prm, null, 2));
       const hook = Deno.env.get("DISCORD_WEBHOOK_URL")!;
-      console.log("hook: " + hook);
 
       if (message !== "") {
         const opt = {
