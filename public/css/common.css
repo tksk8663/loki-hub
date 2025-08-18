@@ -1,0 +1,178 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.main {
+  margin-top: 54px;
+}
+
+div.main {
+  display: table;
+  width: 100%;
+  min-height: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+div.main > div {
+  display: table-cell;
+}
+
+div.main > div:first-child,
+div.main > div:last-child {
+  width: auto;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.home-link {
+  font-size: small;
+  text-align: right;
+  margin-bottom: 8px;
+}
+
+.elm-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.elm-middle {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 48px;
+  width: 100%;
+  display: table;
+  user-select: none;
+  border-bottom: solid 1px #ccc;
+}
+
+.header > div {
+  width: 100%;
+  height: 48px;
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.user-name {
+  white-space: nowrap;
+  width: 32px;
+  padding-right: 12px;
+  cursor: pointer;
+}
+
+.logout {
+  white-space: nowrap;
+  width: 32px;
+  padding-right: 12px;
+}
+
+.logout > svg {
+  cursor: pointer;
+}
+
+.table {
+  display: table;
+}
+
+.table-row {
+  display: table-row;
+}
+
+.table-cell {
+  display: table-cell;
+}
+
+.small-box {
+  width: 1em;
+  white-space: nowrap;
+}
+
+.div-button {
+  cursor: pointer;
+  user-select: none;
+}
+
+.home-lists > div {
+  font-size: 32px;
+  color: #000;
+  height: 48px;
+}
+
+.home-lists a {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.home-lists img {
+  width: 48px;
+  height: 48px;
+  margin-right: 16px;
+}
+
+#message {
+  width: 100%;
+  height: 4em;
+}
+
+#messageSend {
+  width: 120px;
+}
+
+.home-message {
+  font-size: 16px !important;
+}
+
+.qrcode {
+  font-size: 16px !important;
+  padding-top: 8px;
+  min-height: 256px;
+  text-align: center;
+}
+
+.qrcode img {
+  width: 256px;
+  height: 256px;
+}
+
+#back-ground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #0006;
+  width: 100vw;
+  height: 100vw;
+  z-index: 1;
+}
+
+#modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  z-index: 2;
+}
