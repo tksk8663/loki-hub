@@ -27,7 +27,7 @@ function getPage(_prm: { [key: string]: number | string } | undefined): Response
         <div>&nbsp;</div>
         <div id="google-login" class="elm-center" style="width: 320px; display: none;">
           <div id="g_id_onload"
-            data-client_id="229912434505-k2chsbh35eliraobtlh56lkaoijrf9ks.apps.googleusercontent.com"
+            data-client_id="${Deno.env.get("GOOGLE_CLIENT_ID")}"
             data-callback="_handleCredentialResponse"
             data-auto_prompt="false">
           </div>
