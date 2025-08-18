@@ -4,6 +4,7 @@ import { dice, diceSocket } from "./pages/dice/dice.ts";
 import { errorResponse } from "./error.ts";
 import { verifyJwt } from "./google_jwt_verify.ts";
 import { userAdd, userDelete, userUpdate, userGet, userIdGetFromGoogleId, userPayload, userPayloadFiltered } from "./user.ts";
+import "https://deno.land/std@0.224.0/dotenv/load.ts";
 
 const port = 33333;
 Deno.serve(
@@ -115,7 +116,8 @@ async function handler(req: Request): Promise<Response> {
     } else if (req.method === "POST" && path === "/send_message") {
       const message = await req.text();
       //log.info(JSON.stringify(prm, null, 2));
-      const hook = "https://discord.com/api/webhooks/1084062798876786768/epr9zBzL_OzUGO5eQRFhXTcZsahvoE9jRO2ZReTPoNLHHyATdyNnstuptGjfxRSfp8CA";
+      const hook = Deno.env.get("DISCORD_WEBHOOK_URL")!;
+      console.log("hook: " + hook);
 
       if (message !== "") {
         const opt = {
