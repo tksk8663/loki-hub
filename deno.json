@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "dev": "deno run --allow-net --allow-read --allow-write --watch --no-clear-screen main.ts"
+    "dev": "deno run --allow-net --allow-read --allow-write=user.json,pages/dice/data.json --allow-env --watch --no-clear-screen main.ts"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1"
