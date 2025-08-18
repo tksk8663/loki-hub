@@ -1,6 +1,7 @@
 import { errorResponse } from "../../error.ts";
 import { getHead } from "../../common-head.ts";
 import { getHeader } from "../../header.ts";
+import "https://deno.land/std@0.224.0/dotenv/load.ts";
 
 export function gate(req: Request, prm: { [key: string]: number | string } | undefined): Response {
   const method = req.method;
