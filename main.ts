@@ -43,6 +43,7 @@ async function handler(req: Request): Promise<Response> {
     };
     const cookie = req.headers.get("cookie");
     const cookiePrm = getCookiePrm(cookie);
+    const { headers } = req;
 
     if (ksk === "css" || ksk === "js") {
       const file = await Deno.open("./public" + path);
@@ -153,7 +154,7 @@ async function handler(req: Request): Promise<Response> {
       return new Response("success", {
         status: 200,
       });
-    } else if (path === "/socket") {
+    } else if (path === "/socket" && headers.get("upgrade")?.toLowerCase() === "websocket") {
       const { socket, response } = Deno.upgradeWebSocket(req);
       if (!clients.has(socket)) clients.add(socket);
       //socket.onopen = () => console.log("WebSocket connected");
