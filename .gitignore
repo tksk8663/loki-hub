@@ -138,5 +138,6 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-/user.json
-/pages/dice/data.json
+.user.json
+./pages/dice/data.json
+.config.json
