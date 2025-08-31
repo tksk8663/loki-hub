@@ -1,0 +1,7 @@
+{
+  "port": 33333,
+  "dir": {
+    "windows": "D:\\tool\\Deno\\syamy",
+    "linux": "/var/www/syamy"
+  }
+}

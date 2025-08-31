@@ -6,8 +6,10 @@ import { verifyJwt } from "./google_jwt_verify.ts";
 import { userAdd, userDelete, userUpdate, userGet, userIdGetFromGoogleId, userPayload, userPayloadFiltered } from "./user.ts";
 import "https://deno.land/std@0.224.0/dotenv/load.ts";
 import { newProject } from "./pages/new-project/new-project.ts";
+import { loadConfig } from "./load-config.ts";
 
-const port = 33333;
+const config = await loadConfig();
+const port = config.port;
 Deno.serve(
   {
     hostname: "0.0.0.0",
@@ -16,13 +18,9 @@ Deno.serve(
   handler
 );
 export let chdir = "";
-if (Deno.build.os === "windows") {
-  chdir = "D:\\tool\\Deno\\syamy";
-  Deno.chdir(chdir);
-} else if (Deno.build.os === "linux") {
-  chdir = "/var/www/syamy";
-  Deno.chdir(chdir);
-} else {
+try {
+  chdir = config.dir[Deno.build.os];
+} catch (_e) {
   throw new Error("Unsupported OS");
 }
 console.log(`🔄 Server restarting at ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`);
