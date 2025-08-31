@@ -5,6 +5,7 @@ import { errorResponse } from "./error.ts";
 import { verifyJwt } from "./google_jwt_verify.ts";
 import { userAdd, userDelete, userUpdate, userGet, userIdGetFromGoogleId, userPayload, userPayloadFiltered } from "./user.ts";
 import "https://deno.land/std@0.224.0/dotenv/load.ts";
+import { newProject } from "./pages/new-project/new-project.ts";
 
 const port = 33333;
 Deno.serve(
@@ -69,6 +70,8 @@ async function handler(req: Request): Promise<Response> {
       const rid = path.replace("/dice", "").replace("/", "");
       if (rid && rid !== "" && rid !== "/") params["id"] = rid;
       return await dice(req, params);
+    } else if (path === "/new-project") {
+      return await newProject();
     } else if (path === "/exit") {
       const data = getprm(prm);
       if (data?.userId) userDelete(data.userId as string);

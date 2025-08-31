@@ -126,7 +126,10 @@ function getCookiePrm(cookieString) {
 }
 
 window.onload = async () => {
-  if (window.location.pathname === "/" || window.location.pathname === "/exit") {
+  const noCheckProject = ["/new-project"];
+  if (noCheckProject.includes(window.location.pathname)) {
+    console.log("no check project call.");
+  } else if (window.location.pathname === "/" || window.location.pathname === "/exit") {
     const url = new URL(window.location.href);
     url.search = "";
     window.history.replaceState(null, "", url.toString());

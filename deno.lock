@@ -1,5 +1,14 @@
 {
   "version": "5",
+  "specifiers": {
+    "npm:marked@*": "16.2.1"
+  },
+  "npm": {
+    "marked@16.2.1": {
+      "integrity": "sha512-r3UrXED9lMlHF97jJByry90cwrZBBvZmjG1L68oYfuPMW+uDTnuMbyJDymCWwbTE+f+3LhpNDKfpR3a3saFyjA==",
+      "bin": true
+    }
+  },
   "redirects": {
     "https://deno.land/std/http/server.ts": "https://deno.land/std@0.224.0/http/server.ts"
   },
