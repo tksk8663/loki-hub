@@ -62,9 +62,10 @@ export function newProject(): Response {
   <html lang="ja">${header}
     <body>
       ${getHeader()}
-      <div class="main">
-        <div>新</div>
-        <div>${marked(markedText)}</div>
+      <div style="display: table">
+        <div style="display: table-cell;width: auto"></div>
+        <div style="display: table-cell; width: 800px">${marked(markedText)}</div>
+        <div style="display: table-cell;width: auto"></div>
       </div>
     </body>
   </html>`;
