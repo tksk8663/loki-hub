@@ -1,8 +1,9 @@
 // deno-lint-ignore-file
+let ws;
 if (window.location.protocol === "https:") {
-  const ws = new WebSocket(`wss://${window.location.hostname}:${window.location.port}/socket`);
+  ws = new WebSocket(`wss://${window.location.hostname}:${window.location.port}/socket`);
 } else {
-  const ws = new WebSocket(`ws://${window.location.hostname}:${window.location.port}/socket`);
+  ws = new WebSocket(`ws://${window.location.hostname}:${window.location.port}/socket`);
 }
 const roginRoomId = (window.location.pathname ?? "").replace("/dice/", "");
 
