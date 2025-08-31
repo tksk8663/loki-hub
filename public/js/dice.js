@@ -1,5 +1,5 @@
 // deno-lint-ignore-file
-const ws = new WebSocket(`ws://${window.location.hostname}:33333/socket`);
+const ws = new WebSocket(`ws://${window.location.hostname}:${window.location.port}/socket`);
 const roginRoomId = (window.location.pathname ?? "").replace("/dice/", "");
 
 function getUserId() {
