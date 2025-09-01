@@ -20,6 +20,7 @@ Deno.serve(
 export let chdir = "";
 try {
   chdir = config.dir[Deno.build.os];
+  if (chdir === undefined) throw new Error("Unsupported OS");
 } catch (_e) {
   throw new Error("Unsupported OS");
 }

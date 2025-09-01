@@ -2,14 +2,15 @@ import { errorResponse } from "../../error.ts";
 import { template } from "../../template.ts";
 import { userGet, userPayloadFiltered } from "../../user.ts";
 import { getCookiePrm } from "../../main.ts";
-let chdir = "";
-if (Deno.build.os === "windows") {
-  chdir = "D:\\tool\\Deno\\syamy";
-  Deno.chdir(chdir);
-} else if (Deno.build.os === "linux") {
-  chdir = "/var/www/syamy";
-  Deno.chdir(chdir);
-} else {
+import { loadConfig } from "../../load-config.ts";
+
+const config = await loadConfig();
+
+let chdir;
+try {
+  chdir = config.dir[Deno.build.os];
+  if (chdir === undefined) throw new Error("Unsupported OS");
+} catch (_e) {
   throw new Error("Unsupported OS");
 }
 
