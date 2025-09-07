@@ -7,6 +7,7 @@ import { userAdd, userDelete, userUpdate, userGet, userIdGetFromGoogleId, userPa
 import "https://deno.land/std@0.224.0/dotenv/load.ts";
 import { newProject } from "./pages/new-project/new-project.ts";
 import { loadConfig } from "./load-config.ts";
+import { lokiDashboard } from "./pages/loki-hub/loki-hub.ts";
 
 const config = await loadConfig();
 const port = config.port;
@@ -173,15 +174,23 @@ async function handler(req: Request): Promise<Response> {
       };
       //socket.onclose = () => console.log("WebSocket closed");
       return response;
+    } else if (path === "/loki-hub" || path === "/loki-hub/dashboard") {
+      const data = getprm(prm);
+      if (data?.userId) userDelete(data.userId as string);
+      return await lokiDashboard(req, getprm(prm));
     } else {
       return errorResponse(404);
     }
-  } catch (e) {
+  } catch (e: any) {
     const data = getprm(prm);
     console.error("request to: " + path);
     console.error(JSON.stringify(data));
     console.error(e);
-    return errorResponse(500);
+    if (String(e).includes("NotFound:")) {
+      return errorResponse(404);
+    } else {
+      return errorResponse(500);
+    }
   }
 }
 
