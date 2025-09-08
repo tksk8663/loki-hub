@@ -9,9 +9,9 @@ if (window.location.pathname === "/loki-hub/dashboard" || window.location.pathna
         const dateTime = new Date();
         let labels = [];
         for (let i = 0; i < 10; i++) {
-          const hours = String(dateTime.getHours());
+          const hours = String(dateTime.getHours()).padStart(2, "0");
           const minutes = String(dateTime.getMinutes()).padStart(2, "0");
-          labels.push(`${hours}:${minutes}`);
+          labels.unshift(`${hours}:${minutes}`);
           dateTime.setHours(dateTime.getHours() - 1);
         }
         clearInterval(waitInterval);
