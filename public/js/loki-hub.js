@@ -45,6 +45,18 @@ if (window.location.pathname === "/loki-hub/dashboard" || window.location.pathna
                 display: false,
               },
             },
+            scales: {
+              x: {
+                offset: false,
+                grid: {
+                  offset: false,
+                  drawTicks: true,
+                },
+                ticks: {
+                  align: "end",
+                },
+              },
+            },
             onClick: (_event, elements) => {
               if (elements.length > 0) {
                 const chartElement = elements[0];
