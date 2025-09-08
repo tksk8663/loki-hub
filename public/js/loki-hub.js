@@ -32,6 +32,11 @@ if (window.location.pathname === "/loki-hub/dashboard" || window.location.pathna
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+            },
             onClick: (_event, elements) => {
               if (elements.length > 0) {
                 const chartElement = elements[0];
