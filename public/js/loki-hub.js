@@ -18,7 +18,7 @@ if (window.location.pathname === "/loki-hub/dashboard" || window.location.pathna
         window._graph = new Chart(ctx, {
           type: "bar",
           data: {
-            labels: ["A", "B", "C", "D", "E"],
+            labels: labels,
             datasets: [
               {
                 label: "サンプルデータ",
