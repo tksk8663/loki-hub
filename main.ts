@@ -29,11 +29,11 @@ console.log(`🔄 Server restarting at ${new Date().toLocaleDateString()} ${new 
 const clients = new Set<WebSocket>();
 
 async function handler(req: Request): Promise<Response> {
+  const url = new URL(req.url, config.baseUrl);
+  const path = url.pathname;
+  const prm = url.search.replace(/^\?/, "");
+  const tmp = path.length > 1 ? path.split(".") : [];
   try {
-    const url = new URL(req.url, config.baseUrl);
-    const path = url.pathname;
-    const prm = url.search.replace(/^\?/, "");
-    const tmp = path.length > 1 ? path.split(".") : [];
     let ksk = "";
     if (tmp.length > 0 && tmp[0]) ksk = tmp[tmp.length - 1];
     const cTp = {
