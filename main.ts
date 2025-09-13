@@ -199,6 +199,7 @@ async function handler(req: Request): Promise<Response> {
       }
     }
   } catch (e: any) {
+    console.error("request to: " + req.url);
     console.error(e);
     if (String(e).includes("NotFound:")) {
       return errorResponse(404);
