@@ -41,7 +41,7 @@ body {
   border-bottom-right-radius: 0.375rem;
 }
 
-.container-fluid .card .card-body * {
+.container-fluid .card .card-body *:not(.graph-color) {
   background-color: #160000;
   color: white;
 }
@@ -50,5 +50,111 @@ body {
   width: 100%;
   height: 200px;
   background-color: #fff7;
-  margin-bottom: -5px;
+}
+
+#contextMenu {
+  border-radius: 6px;
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  background: white;
+  padding: 4px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+}
+
+#contextMenu li {
+  list-style: none;
+  padding: 0px 16px;
+  cursor: pointer;
+  color: #222;
+}
+
+#contextMenu li:hover {
+  background-color: #32000077;
+}
+
+.graph-color {
+  width: 0;
+  --bs-table-bg-type: unset !important;
+}
+
+.graph-color.red {
+  background-color: red;
+}
+
+.graph-color.blue {
+  background-color: blue;
+}
+
+.graph-color.green {
+  background-color: green;
+}
+
+.graph-color.orange {
+  background-color: orange;
+}
+
+.graph-color.purple {
+  background-color: purple;
+}
+
+.graph-color.cyan {
+  background-color: cyan;
+}
+
+.graph-color.magenta {
+  background-color: magenta;
+}
+
+.graph-color.yellow {
+  background-color: yellow;
+}
+
+.graph-color.lime {
+  background-color: lime;
+}
+
+.graph-color.teal {
+  background-color: teal;
+}
+
+.graph-color.navy {
+  background-color: navy;
+}
+
+.graph-color.maroon {
+  background-color: maroon;
+}
+
+.graph-color.olive {
+  background-color: olive;
+}
+
+.graph-color.coral {
+  background-color: coral;
+}
+
+.graph-color.tomato {
+  background-color: tomato;
+}
+
+.graph-color.gold {
+  background-color: gold;
+}
+
+.graph-color.mediumslateblue {
+  background-color: mediumslateblue;
+}
+
+.graph-color.darkcyan {
+  background-color: darkcyan;
+}
+
+.graph-color.sandybrown {
+  background-color: sandybrown;
+}
+
+.graph-color.steelblue {
+  background-color: steelblue;
 }

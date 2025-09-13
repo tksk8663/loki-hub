@@ -29,11 +29,11 @@ console.log(`🔄 Server restarting at ${new Date().toLocaleDateString()} ${new 
 const clients = new Set<WebSocket>();
 
 async function handler(req: Request): Promise<Response> {
-  const url = new URL(req.url);
-  const path = url.pathname;
-  const prm = url.search.replace(/^\?/, "");
-  const tmp = path.length > 1 ? path.split(".") : [];
   try {
+    const url = new URL(req.url, config.baseUrl);
+    const path = url.pathname;
+    const prm = url.search.replace(/^\?/, "");
+    const tmp = path.length > 1 ? path.split(".") : [];
     let ksk = "";
     if (tmp.length > 0 && tmp[0]) ksk = tmp[tmp.length - 1];
     const cTp = {
@@ -174,10 +174,15 @@ async function handler(req: Request): Promise<Response> {
       };
       //socket.onclose = () => console.log("WebSocket closed");
       return response;
-    } else if (path === "/loki-hub" || path === "/loki-hub/dashboard") {
-      const data = getprm(prm);
-      if (data?.userId) userDelete(data.userId as string);
-      return await lokiDashboard(req, getprm(prm));
+    } else if (path.startsWith("/loki-hub")) {
+      const path_suffix = path.replace("/loki-hub", "");
+      if (path_suffix === "" || path_suffix === "/dashboard") {
+        const data = getprm(prm);
+        if (data?.userId) userDelete(data.userId as string);
+        return await lokiDashboard(req, getprm(prm));
+      } else {
+        return errorResponse(404);
+      }
     } else {
       return errorResponse(404);
     }
