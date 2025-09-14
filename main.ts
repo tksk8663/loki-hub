@@ -1,7 +1,7 @@
 import { errorResponse } from "./error.ts";
-import { verifyJwt } from "./google_jwt_verify.ts";
 import "https://deno.land/std@0.224.0/dotenv/load.ts";
 import { loadConfig } from "./load-config.ts";
+import { welcome } from "./pages/welcome.ts";
 import { lokiDashboard } from "./pages/loki-hub/loki-hub.ts";
 
 const config = await loadConfig();
@@ -58,18 +58,9 @@ async function handler(req: Request): Promise<Response> {
           headers: new Headers(cTp[ksk]),
         });
       } else if (path === "/") {
-        return new Response(
-          `<html><body style="background-color:#320000; color:#f0eaea; font-family: sans-serif; padding: 2em;"><div style="width: 1024px; margin-left: auto; margin-right: auto;"
-  <h1>Welcome to Zabio's Zabbix Tools Server</h1>
-  <p>ここにはZabbix関連ツールが置いてあります。</p>
-    <ul>
-    <li><a href="/loki-hub" style="color:#f0eaea; text-decoration: underline;">Zabbix統合監視ツール</a></li>
-  </ul>
-</div></body></html>`,
-          {
-            headers: { "content-type": "text/html; charset=utf-8" },
-          }
-        );
+        return new Response(welcome(), {
+          headers: { "content-type": "text/html; charset=utf-8" },
+        });
       } else if (path === "/socket" && headers.get("upgrade")?.toLowerCase() === "websocket") {
         const { socket, response } = Deno.upgradeWebSocket(req);
         if (!clients.has(socket)) clients.add(socket);
