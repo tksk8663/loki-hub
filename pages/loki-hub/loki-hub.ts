@@ -1,4 +1,4 @@
-import { errorResponse } from "../../error.ts";
+import { errorResponse } from "../error.ts";
 
 export function lokiDashboard(_req: Request, _prm: { [key: string]: number | string } | undefined): Response {
   try {
