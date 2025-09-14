@@ -1,11 +1,6 @@
-import { gate } from "./pages/gate/gate.ts";
-import { home } from "./pages/home/home.ts";
-import { dice, diceSocket } from "./pages/dice/dice.ts";
 import { errorResponse } from "./error.ts";
 import { verifyJwt } from "./google_jwt_verify.ts";
-import { userAdd, userDelete, userUpdate, userGet, userIdGetFromGoogleId, userPayload, userPayloadFiltered } from "./user.ts";
 import "https://deno.land/std@0.224.0/dotenv/load.ts";
-import { newProject } from "./pages/new-project/new-project.ts";
 import { loadConfig } from "./load-config.ts";
 import { lokiDashboard } from "./pages/loki-hub/loki-hub.ts";
 
@@ -62,112 +57,26 @@ async function handler(req: Request): Promise<Response> {
         return new Response(file.readable, {
           headers: new Headers(cTp[ksk]),
         });
-      } else if (path === "" || path === "/") {
-        return await gate(req, getprm(prm));
-      } else if (path === "/home") {
-        return await home(req, getprm(prm));
-      } else if (path.startsWith("/dice")) {
-        const params = getprm(prm) ?? {};
-        const rid = path.replace("/dice", "").replace("/", "");
-        if (rid && rid !== "" && rid !== "/") params["id"] = rid;
-        return await dice(req, params);
-      } else if (path === "/new-project") {
-        return await newProject();
-      } else if (path === "/exit") {
-        const data = getprm(prm);
-        if (data?.userId) userDelete(data.userId as string);
-        return await gate(req, getprm(prm));
-      } else if (path === "/auth/check") {
-        const data = getprm(prm);
-        const user = userGet(data?.userid as string);
-        const headers = new Headers();
-        headers.append("Content-Type", "application/json");
-        if (user?.name) {
-          return new Response(JSON.stringify({ user: { id: data?.userid, name: user.name, viewName: user.viewName } }), {
-            status: 200,
-            headers,
-          });
-        } else {
-          return new Response(JSON.stringify({ user: undefined }), {
-            status: 400,
-            headers,
-          });
-        }
-      } else if (req.method === "POST" && path === "/auth/google") {
-        let rnd = randomString(64);
-        const { token } = await req.json();
-        if (!token) {
-          return new Response(JSON.stringify({ success: false, error: "No token" }), {
-            status: 400,
-            headers: { "Content-Type": "application/json" },
-          });
-        }
-        const payload = payloadFilter((await verifyJwt(token)) as unknown as userPayload);
-        const uid = userIdGetFromGoogleId(payload.sub);
-        if (uid) {
-          rnd = uid;
-        } else {
-          userAdd(rnd, payload);
-        }
-
-        const headers = new Headers();
-        headers.append("Set-Cookie", `userid=${rnd}; Path=/; SameSite=Lax`);
-        headers.append("Content-Type", "application/json");
-        // 必要に応じてセッション開始やユーザー保存など
-        return new Response(JSON.stringify({ success: true, user: rnd }), {
-          status: 200,
-          headers,
-        });
-      } else if (req.method === "POST" && path === "/send_message") {
-        const message = await req.text();
-        //log.info(JSON.stringify(prm, null, 2));
-        const hook = Deno.env.get("DISCORD_WEBHOOK_URL")!;
-
-        if (message !== "") {
-          const opt = {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ content: message }),
-          };
-
-          const response = await fetch(hook, opt);
-
-          const result = await response.text();
-          if (result === "") {
-            return new Response("success", {
-              status: 200,
-            });
-          } else {
-            return new Response("failer", {
-              status: 500,
-            });
+      } else if (path === "/") {
+        return new Response(
+          `<html><body style="background-color:#320000; color:#f0eaea; font-family: sans-serif; padding: 2em;"><div style="width: 1024px; margin-left: auto; margin-right: auto;"
+  <h1>Welcome to Zabio's Zabbix Tools Server</h1>
+  <p>ここにはZabbix関連ツールが置いてあります。</p>
+    <ul>
+    <li><a href="/loki-hub" style="color:#f0eaea; text-decoration: underline;">Zabbix統合監視ツール</a></li>
+  </ul>
+</div></body></html>`,
+          {
+            headers: { "content-type": "text/html; charset=utf-8" },
           }
-        } else {
-          return new Response("no message", {
-            status: 200,
-          });
-        }
-      } else if (req.method === "POST" && path === "/change_name") {
-        const data = getprm(prm);
-        const userName = await req.text();
-        if (data?.userid && userName !== "") {
-          userUpdate(data.userid as string, userName);
-        }
-        return new Response("success", {
-          status: 200,
-        });
+        );
       } else if (path === "/socket" && headers.get("upgrade")?.toLowerCase() === "websocket") {
         const { socket, response } = Deno.upgradeWebSocket(req);
         if (!clients.has(socket)) clients.add(socket);
         //socket.onopen = () => console.log("WebSocket connected");
         socket.onmessage = (event) => {
           const data = JSON.parse(event.data ?? "{}");
-          if (data) {
-            if (data.page == "dice") {
-              diceSocket(clients, data);
-            }
+          if (false) {
           } else {
             console.warn("unKnown data resive...");
             console.warn(JSON.stringify(event));
@@ -178,8 +87,6 @@ async function handler(req: Request): Promise<Response> {
       } else if (path.startsWith("/loki-hub")) {
         const path_suffix = path.replace("/loki-hub", "");
         if (path_suffix === "" || path_suffix === "/dashboard") {
-          const data = getprm(prm);
-          if (data?.userId) userDelete(data.userId as string);
           return await lokiDashboard(req, getprm(prm));
         } else {
           return errorResponse(404);
@@ -187,7 +94,7 @@ async function handler(req: Request): Promise<Response> {
       } else {
         return errorResponse(404);
       }
-    } catch (e: any) {
+    } catch (e) {
       const data = getprm(prm);
       console.error("request to: " + path);
       console.error(JSON.stringify(data));
@@ -198,7 +105,7 @@ async function handler(req: Request): Promise<Response> {
         return errorResponse(500);
       }
     }
-  } catch (e: any) {
+  } catch (e) {
     console.error("request to: " + req.url);
     console.error(e);
     if (String(e).includes("NotFound:")) {
@@ -207,14 +114,6 @@ async function handler(req: Request): Promise<Response> {
       return errorResponse(500);
     }
   }
-}
-
-function payloadFilter(payload: userPayload): userPayloadFiltered {
-  return {
-    name: payload.name,
-    picture: payload.picture,
-    sub: payload.sub,
-  };
 }
 
 function getprm(prm: string): { [key: string]: number | string } | undefined {

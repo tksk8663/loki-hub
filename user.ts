@@ -1,6 +1,6 @@
 let chdir = "";
 if (Deno.build.os === "windows") {
-  chdir = "D:\\tool\\Deno\\syamy";
+  chdir = "D:\\tool\\Deno\\loki-hub";
   Deno.chdir(chdir);
 } else if (Deno.build.os === "linux") {
   chdir = "/var/www/syamy";

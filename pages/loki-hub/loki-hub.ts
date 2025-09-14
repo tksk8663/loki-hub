@@ -108,7 +108,12 @@ const template = `<!DOCTYPE html>
   <script src="/js/loki-hub.js"></script>
 </head>
 <body>
-<div class="header"></div>
+<div class="header">
+  <div style="width: 1200px; margin: 0 auto;">
+    <div>開発途中のため、ログイン機能はなく、利用できる操作も制限されています。</div>
+    <div>This tool is under development, so there is no login feature and available operations are limited.</div>
+  </div>
+</div>
 <div class="main-content">
 __content_body__
 </div>
