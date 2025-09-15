@@ -259,11 +259,10 @@ function testZabbixConnect() {
   })
     .then(async (response) => {
       const result = await response.json();
-      console.log(result);
-      if (result.status === 200) {
+      if (result.status === "success") {
         const checkButton = document.getElementById("connection-check");
         checkButton.removeEventListener("click", testZabbixConnect);
-        checkButton.innerText = `接続成功！ [${result}]`;
+        checkButton.innerText = `接続成功！ [${result.result}]`;
       }
     })
     .then((_data) => {})
