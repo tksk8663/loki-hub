@@ -24,6 +24,7 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
       headers: { "Content-Type": "application/json" },
     });
   } catch (e) {
+    console.error(e);
     return errorResponse(500);
   }
 
