@@ -223,7 +223,8 @@ function zabbixAddModal() {
     const buttonDiv = document.createElement("div");
     const addButton = document.createElement("button");
     addButton.innerText = "追加";
-    addButton.addEventListener("click", addZabbix);
+    //addButton.addEventListener("click", addZabbix);
+    addButton.addEventListener("click", () => alert("未実装！"));
     buttonDiv.appendChild(addButton);
     zabbixNameDiv.appendChild(buttonDiv);
     modal.appendChild(zabbixNameDiv);
