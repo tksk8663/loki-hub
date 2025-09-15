@@ -1,5 +1,3 @@
-import { errorResponse } from "../error.ts";
-
 export async function checkZabbixConnect(_req: Request, prm: { [key: string]: number | string }): Promise<Response> {
   try {
     const ret = await postZabbixApi("apiinfo.version", prm.ip as string, []);
@@ -22,7 +20,7 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
       if (ret.status === "success") {
         const auth = String(ret.result);
         const exit = await postZabbixApi("user.logout", prm.ip as string, {}, auth);
-        console.log(exit);
+        console.debug(exit);
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
         return new Response(JSON.stringify({ status: "success", result: varsionString }), {
@@ -77,7 +75,7 @@ async function postZabbixApi(method: string, ip: string, prm: any, auth?: string
       auth: auth ?? null,
     };
 
-    console.log("実際に送るJSON:", JSON.stringify(requestBody));
+    console.debug("実際に送るJSON:", JSON.stringify(requestBody));
 
     const res = await fetch(`http://${ip}/zabbix/api_jsonrpc.php`, {
       method: "POST",
@@ -87,7 +85,7 @@ async function postZabbixApi(method: string, ip: string, prm: any, auth?: string
       body: JSON.stringify(requestBody),
     });
     const data = await res.json();
-    console.log(data);
+    console.debug(data);
     if (data.result) {
       return { status: "success", result: data.result };
     } else if (data.error) {

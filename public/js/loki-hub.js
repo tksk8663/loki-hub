@@ -206,12 +206,16 @@ function zabbixAddModal() {
     const spacer = document.createElement("div");
     spacer.innerHTML = "&nbsp;";
     zabbixNameDiv.appendChild(spacer);
-    // button
-    const buttonDiv = document.createElement("div");
-    const testButton = document.createElement("button");
+    // connection check
+    const testDiv = document.createElement("div");
+    const testButton = document.createElement("span");
+    testButton.id = "connection-check";
     testButton.innerText = "接続確認";
     testButton.addEventListener("click", testZabbixConnect);
-    buttonDiv.appendChild(testButton);
+    testDiv.appendChild(testButton);
+    zabbixNameDiv.appendChild(testDiv);
+    // button
+    const buttonDiv = document.createElement("div");
     const addButton = document.createElement("button");
     addButton.innerText = "追加";
     addButton.addEventListener("click", addZabbix);
@@ -248,7 +252,14 @@ function testZabbixConnect() {
       pw: pw,
     }),
   })
-    .then((response) => response.json())
+    .then((response) => {
+      const result = response.json();
+      if (result.status === 200) {
+        const checkButton = document.getElementById("connection-check");
+        checkButton.removeEventListener("click", testZabbixConnect);
+        checkButton.innerText = `接続成功！ [${response.json()}]`;
+      }
+    })
     .then((data) => {
       console.log("Zabbix Version:", data.result);
     })
