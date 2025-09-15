@@ -162,15 +162,123 @@ function zabbixAddModal() {
     mbc.style.display = "";
     const mbcRect = mbc.getBoundingClientRect();
     const modal = mbc.children[0];
-    modal.style.top = `${Math.floor(mbcRect.height - 240) / 2}px`;
+    modal.style.top = `${Math.floor(mbcRect.height - 330) / 2}px`;
     modal.style.left = `${Math.floor(mbcRect.width - 320) / 2}px`;
+    const div = document.createElement("div");
+    div.style.textAlign = "center";
+    const zabbixNameDiv = document.createElement("div");
+    const title = document.createElement("h4");
+    title.innerText = "Zabbix Server 追加";
+    zabbixNameDiv.appendChild(title);
+    // zabbix name
+    const zabbixNameText = document.createElement("div");
+    zabbixNameText.innerText = "Zabbix Name";
+    zabbixNameDiv.appendChild(zabbixNameText);
+    const zabbixName = document.createElement("input");
+    zabbixName.id = "zabbix-name";
+    zabbixName.placeholder = "Zabbix Server";
+    zabbixNameDiv.appendChild(zabbixName);
+    // zabbix ip
+    const zabbixIPText = document.createElement("div");
+    zabbixIPText.innerText = "Zabbix IP";
+    zabbixNameDiv.appendChild(zabbixIPText);
+    const zabbixIP = document.createElement("input");
+    zabbixIP.id = "zabbix-ip";
+    zabbixIP.placeholder = "127.0.0.1";
+    zabbixNameDiv.appendChild(zabbixIP);
+    // zabbix user
+    const zabbixUserText = document.createElement("div");
+    zabbixUserText.innerText = "Zabbix User ID";
+    zabbixNameDiv.appendChild(zabbixUserText);
+    const zabbixUser = document.createElement("input");
+    zabbixUser.id = "zabbix-user";
+    zabbixUser.placeholder = "Admin";
+    zabbixNameDiv.appendChild(zabbixUser);
+    // zabbix pw
+    const zabbixPwText = document.createElement("div");
+    zabbixPwText.innerText = "Zabbix Password";
+    zabbixNameDiv.appendChild(zabbixPwText);
+    const zabbixPw = document.createElement("input");
+    zabbixPw.id = "zabbix-pw";
+    zabbixPw.type = "password";
+    zabbixNameDiv.appendChild(zabbixPw);
+    // spacer
+    const spacer = document.createElement("div");
+    spacer.innerHTML = "&nbsp;";
+    zabbixNameDiv.appendChild(spacer);
+    // button
+    const buttonDiv = document.createElement("div");
+    const testButton = document.createElement("button");
+    testButton.innerText = "接続確認";
+    testButton.addEventListener("click", testZabbixConnect);
+    buttonDiv.appendChild(testButton);
+    const addButton = document.createElement("button");
+    addButton.innerText = "追加";
+    addButton.addEventListener("click", addZabbix);
+    buttonDiv.appendChild(addButton);
+    zabbixNameDiv.appendChild(buttonDiv);
+    modal.appendChild(zabbixNameDiv);
   }
 }
+
+function testZabbixConnect() {
+  const zabbixIp = document.getElementById("zabbix-ip");
+  let ip = "127.0.0.1";
+  if (zabbixIp && /^\d+\.\d+\.\d+\.\d+$/.test(zabbixIp)) {
+    ip = zabbixIp.value;
+  }
+  const zabbixUser = document.getElementById("zabbix-user");
+  let user = "Admin";
+  if (zabbixUser && zabbixUser.value !== "") {
+    user = zabbixUser.value;
+  }
+  const zabbixPw = document.getElementById("zabbix-pw");
+  let pw = "zabbix";
+  if (zabbixPw && zabbixPw.value !== "") {
+    pw = zabbixPw.value;
+  }
+  fetch(`http://${ip}/zabbix/api_jsonrpc.php`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json-rpc",
+    },
+    /*body: JSON.stringify({
+      jsonrpc: "2.0",
+      method: "user.login",
+      params: {
+        user: user,
+        password: pw,
+      },
+      id: 1,
+      auth: null,
+    }), //*/
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      method: "apiinfo.version",
+      params: [],
+      id: 1,
+      auth: null,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("API Response:", data);
+      // トークンが data.result に返ってくる
+    })
+    .catch((error) => {
+      console.error("API Error:", error);
+    });
+}
+
+function addZabbix() {}
 
 function closeModal(event) {
   const mbc = document.getElementById("modal-background");
   if (mbc) {
-    if (event.target.id === "modal-background") mbc.style.display = "none";
+    if (event.target.id === "modal-background") {
+      mbc.style.display = "none";
+      mbc.children[0].innerHTML = "";
+    }
   }
 }
 

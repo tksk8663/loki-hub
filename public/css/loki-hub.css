@@ -99,14 +99,18 @@ body {
   z-index: 9;
 }
 
-#modal-background div {
+#modal-background > div {
   position: absolute;
   border: solid 1px white;
   border-radius: 10px;
   padding: 10px;
   width: 320px;
-  height: 240px;
+  height: 330px;
   background-color: #320000;
+}
+
+#modal-background > div > div {
+  text-align: center;
 }
 
 .burger {
