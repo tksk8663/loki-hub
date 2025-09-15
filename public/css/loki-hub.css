@@ -117,6 +117,7 @@ body {
   padding: 2px 10px;
   white-space: nowrap;
   min-width: 120px;
+  max-width: 240px;
   border: solid 1px white;
   border-radius: 5px;
   margin: 0 auto;
