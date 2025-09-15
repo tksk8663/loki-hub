@@ -259,13 +259,14 @@ function testZabbixConnect() {
   })
     .then(async (response) => {
       const result = await response.json();
+      const checkButton = document.getElementById("connection-check");
       if (result.status === "success") {
-        const checkButton = document.getElementById("connection-check");
         checkButton.removeEventListener("click", testZabbixConnect);
-        checkButton.innerText = `接続成功！ [${result.result}]`;
+        checkButton.innerText = `接続成功！ [v:${result.result}]`;
         checkButton.style.backgroundColor = "green";
       } else {
-        alert("Error: " + result.error);
+        checkButton.innerText = `接続確認`;
+        checkButton.style = none;
       }
     })
     .then((_data) => {})
