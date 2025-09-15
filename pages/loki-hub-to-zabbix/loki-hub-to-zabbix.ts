@@ -58,7 +58,7 @@ async function postZabbixApi(method: string, ip: string, prm: any, auth?: string
   try {
     const requestBody = {
       jsonrpc: "2.0",
-      method: "user.login",
+      method: method,
       params: prm,
       id: 1,
       auth: auth ?? null,
