@@ -237,37 +237,18 @@ function testZabbixConnect() {
   if (zabbixPw && zabbixPw.value !== "") {
     pw = zabbixPw.value;
   }
-  fetch(`http://${ip}/zabbix/api_jsonrpc.php`, {
+  const ret = fetch("/loki-hub/zabbix-check", {
     method: "POST",
     headers: {
       "Content-Type": "application/json-rpc",
     },
-    /*body: JSON.stringify({
-      jsonrpc: "2.0",
-      method: "user.login",
-      params: {
-        user: user,
-        password: pw,
-      },
-      id: 1,
-      auth: null,
-    }), //*/
     body: JSON.stringify({
-      jsonrpc: "2.0",
-      method: "apiinfo.version",
-      params: [],
-      id: 1,
-      auth: null,
+      ip: ip,
+      user: user,
+      pw: pw,
     }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("API Response:", data);
-      // トークンが data.result に返ってくる
-    })
-    .catch((error) => {
-      console.error("API Error:", error);
-    });
+  });
+  console.log(ret.json());
 }
 
 function addZabbix() {}

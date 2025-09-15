@@ -81,7 +81,7 @@ async function handler(req: Request): Promise<Response> {
         };
         //socket.onclose = () => console.log("WebSocket closed");
         return response;
-      } else if (path.startsWith("/loki-hub")) {
+      } else if (req.method === "POST" && path.startsWith("/loki-hub")) {
         const path_suffix = path.replace("/loki-hub", "");
         const prmData = getprm(prm);
         if (path_suffix === "" || path_suffix === "/dashboard") {
