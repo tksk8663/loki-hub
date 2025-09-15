@@ -1,4 +1,5 @@
 import { errorResponse } from "../error.ts";
+import { template, colors } from "../common.ts";
 
 export function lokiDashboard(_req: Request, _prm: { [key: string]: number | string } | undefined): Response {
   try {
@@ -37,7 +38,10 @@ export function lokiDashboard(_req: Request, _prm: { [key: string]: number | str
     <div class="row">
       <div class="col-12">
         <div class="card">
-          <div class="card-header">Zabbix 一覧</div>
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <span>Zabbix 一覧</span>
+            <div class="burger"><i class="bi bi-list" id="zabbix-list-burger"></i></div>
+          </div>
           <div class="card-body">
             <table class="table table-striped">
               <thead>
@@ -83,6 +87,12 @@ export function lokiDashboard(_req: Request, _prm: { [key: string]: number | str
   <ul id="contextMenu">
     <li id="saveImage">グラフを保存</li>
   </ul>
+  <div id="zabbix-list-burger-menu" style="display: none;">
+    <ul>
+      <li><span id="add-zabbix-server">Zabbix Serverを追加</span></li>
+    </ul>
+  </div>
+  <div id="modal-background" style="display: none"><div></div></div>
   <!-- BootstrapのJS（必要であれば） -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </div>
@@ -96,49 +106,3 @@ export function lokiDashboard(_req: Request, _prm: { [key: string]: number | str
     return errorResponse(500);
   }
 }
-
-const template = `<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>__title__</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/loki-hub.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="/js/loki-hub.js"></script>
-</head>
-<body>
-<div class="header">
-  <div style="width: 1200px; margin: 0 auto;">
-    <div>開発途中のため、ログイン機能はなく、利用できる操作も制限されています。</div>
-    <div>This tool is under development, so there is no login feature and available operations are limited.</div>
-  </div>
-</div>
-<div class="main-content">
-__content_body__
-</div>
-</body>
-</html>`;
-
-const colors = [
-  "red", // 赤
-  "maroon", // 深い赤
-  "magenta", // 赤紫
-  "purple", // 紫
-  "mediumslateblue", // 青紫
-  "steelblue", // 青みがかったグレー
-  "blue", // 青
-  "navy", // 濃い青
-  "cyan", // 明るいシアン
-  "darkcyan", // 深いシアン
-  "teal", // 緑がかった青
-  "green", // 緑
-  "lime", // 明るい緑
-  "olive", // 黄緑がかった色
-  "yellow", // 黄色
-  "gold", // 黄金色
-  "orange", // 明るいオレンジ
-  "coral", // 柔らかいオレンジ
-  "tomato", // 赤寄りオレンジ
-  "sandybrown", // 明るい茶色（中間色）
-];

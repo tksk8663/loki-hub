@@ -106,6 +106,33 @@ if (window.location.pathname === "/loki-hub/dashboard" || window.location.pathna
           options: graphOptions,
         });
       }
+      const zlb = document.getElementById("zabbix-list-burger");
+      if (zlb) {
+        zlb.removeEventListener("click", function (event) {
+          zabbixListBurger(event);
+        });
+        zlb.addEventListener("click", function (event) {
+          zabbixListBurger(event);
+        });
+      }
+      const azs = document.getElementById("add-zabbix-server");
+      if (azs) {
+        azs.removeEventListener("click", function (event) {
+          zabbixAddModal(event);
+        });
+        azs.addEventListener("click", function (event) {
+          zabbixAddModal(event);
+        });
+      }
+      const mbc = document.getElementById("modal-background");
+      if (mbc) {
+        mbc.removeEventListener("click", function (event) {
+          closeModal(event);
+        });
+        mbc.addEventListener("click", function (event) {
+          closeModal(event);
+        });
+      }
     }
     count++;
     if (count > 20) {
@@ -114,6 +141,45 @@ if (window.location.pathname === "/loki-hub/dashboard" || window.location.pathna
     }
   }, 100);
 }
+
+function zabbixListBurger(event) {
+  const menu = document.getElementById("zabbix-list-burger-menu");
+  if (menu) {
+    const rect = event.target.getBoundingClientRect();
+    menu.style.top = `${rect.bottom}px`;
+    menu.style.left = `${rect.left - 180}px`;
+    setTimeout(() => {
+      menu.style.display = "";
+    }, 0);
+  }
+}
+
+function zabbixAddModal() {
+  const menu = document.getElementById("zabbix-list-burger-menu");
+  menu.style.display = "none";
+  const mbc = document.getElementById("modal-background");
+  if (mbc) {
+    mbc.style.display = "";
+    const mbcRect = mbc.getBoundingClientRect();
+    const modal = mbc.children[0];
+    modal.style.top = `${Math.floor(mbcRect.height - 240) / 2}px`;
+    modal.style.left = `${Math.floor(mbcRect.width - 320) / 2}px`;
+  }
+}
+
+function closeModal(event) {
+  const mbc = document.getElementById("modal-background");
+  if (mbc) {
+    if (event.target.id === "modal-background") mbc.style.display = "none";
+  }
+}
+
+window.onclick = function (event) {
+  const menu = document.getElementById("zabbix-list-burger-menu");
+  if (menu && !event.target.closest("#zabbix-list-burger-menu")) {
+    menu.style.display = "none";
+  }
+};
 
 const colors = [
   "red", // 赤

@@ -74,6 +74,57 @@ body {
   background-color: #32000077;
 }
 
+#zabbix-list-burger-menu {
+  position: fixed;
+  border: solid 2px #fff;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #320000;
+  width: 200px;
+  min-height: 40px;
+  user-select: none;
+}
+
+#zabbix-list-burger-menu span {
+  cursor: pointer;
+}
+
+#modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #0009;
+  z-index: 9;
+}
+
+#modal-background div {
+  position: absolute;
+  border: solid 1px white;
+  border-radius: 10px;
+  padding: 10px;
+  width: 320px;
+  height: 240px;
+  background-color: #320000;
+}
+
+.burger {
+  position: relative;
+  font-size: 20px;
+}
+
+.burger i {
+  position: absolute;
+  left: -12px;
+  top: -16px;
+  cursor: pointer;
+}
+
+ul {
+  margin: 0;
+}
+
 .graph-color {
   width: 0;
   --bs-table-bg-type: unset !important;

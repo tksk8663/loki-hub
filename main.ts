@@ -67,7 +67,12 @@ async function handler(req: Request): Promise<Response> {
         //socket.onopen = () => console.log("WebSocket connected");
         socket.onmessage = (event) => {
           const data = JSON.parse(event.data ?? "{}");
-          if (false) {
+          if (data) {
+            if (data.page == "loki-hub") {
+            } else {
+              console.warn("unKnown data resive...");
+              console.warn(JSON.stringify(data));
+            }
           } else {
             console.warn("unKnown data resive...");
             console.warn(JSON.stringify(event));
