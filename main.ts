@@ -84,11 +84,11 @@ async function handler(req: Request): Promise<Response> {
       } else if (path.startsWith("/loki-hub")) {
         const path_suffix = path.replace("/loki-hub", "");
         const prmData = getprm(prm);
-        const jsonData = await req.json();
+        const jsonData = req ? req.text() : undefined;
         if (path_suffix === "" || path_suffix === "/dashboard") {
           return await lokiDashboard(req, prmData);
         } else if (req.method === "POST" && path_suffix === "/zabbix-check" && jsonData !== undefined) {
-          return await checkZabbixConnect(req, jsonData);
+          return await checkZabbixConnect(req, JSON.parse(await jsonData));
         } else {
           return errorResponse(404);
         }
