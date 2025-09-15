@@ -257,8 +257,8 @@ function testZabbixConnect() {
       pw: pw,
     }),
   })
-    .then((response) => {
-      const result = response.json();
+    .then(async (response) => {
+      const result = await response.json();
       console.log(result);
       if (result.status === 200) {
         const checkButton = document.getElementById("connection-check");
