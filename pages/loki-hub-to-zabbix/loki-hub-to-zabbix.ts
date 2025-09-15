@@ -31,7 +31,7 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
         return new Response(JSON.stringify({ status: "fail", error: "Cannot access to Zabbix." }), {
-          status: 500,
+          status: 401,
           headers,
         });
       }
@@ -39,7 +39,7 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
       const headers = new Headers();
       headers.append("Content-Type", "application/json");
       return new Response(JSON.stringify({ status: "fail", error: "Cannot access to Zabbix." }), {
-        status: 500,
+        status: 404,
         headers,
       });
     }
@@ -75,7 +75,7 @@ async function postZabbixApi(method: string, ip: string, prm: any, auth?: string
       auth: auth ?? null,
     };
 
-    console.log("実際に送るJSON:", JSON.stringify(requestBody));
+    console.debug("実際に送るJSON:", JSON.stringify(requestBody));
 
     const res = await fetch(`http://${ip}/zabbix/api_jsonrpc.php`, {
       method: "POST",
