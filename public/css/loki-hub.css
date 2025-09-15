@@ -114,7 +114,9 @@ body {
 }
 
 #connection-check {
-  width: 120px;
+  padding: 2px 10px;
+  white-space: nowrap;
+  min-width: 120px;
   border: solid 1px white;
   border-radius: 5px;
   margin: 0 auto;
