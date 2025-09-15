@@ -17,7 +17,7 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
       }),
     });
 
-    const data = (await res).json();
+    const data = await res.json();
     console.log("API Response:", data);
 
     return new Response(JSON.stringify(data), {
