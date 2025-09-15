@@ -240,7 +240,7 @@ function testZabbixConnect() {
   fetch("/loki-hub/zabbix-check", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json-rpc",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       ip: ip,
