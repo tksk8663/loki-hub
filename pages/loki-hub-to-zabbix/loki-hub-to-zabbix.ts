@@ -56,27 +56,22 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
 
 async function postZabbixApi(method: string, ip: string, prm: any, auth?: string): Promise<any> {
   try {
-    console.log(
-      JSON.stringify({
-        jsonrpc: "2.0",
-        method: method,
-        params: prm,
-        id: 1,
-        auth: auth ? auth : null,
-      })
-    );
+    const requestBody = {
+      jsonrpc: "2.0",
+      method: "user.login",
+      params: prm,
+      id: 1,
+      auth: auth ?? null,
+    };
+
+    console.log("実際に送るJSON:", JSON.stringify(requestBody));
+
     const res = await fetch(`http://${ip}/zabbix/api_jsonrpc.php`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        jsonrpc: "2.0",
-        method: method,
-        params: prm,
-        id: 1,
-        auth: auth ? auth : null,
-      }),
+      body: JSON.stringify(requestBody),
     });
     const data = await res.json();
     console.log(data);
