@@ -68,7 +68,7 @@ async function postZabbixApi(method: string, ip: string, prm: any, auth?: string
     const res = await fetch(`http://${ip}/zabbix/api_jsonrpc.php`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json-rpc",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         jsonrpc: "2.0",
@@ -79,6 +79,7 @@ async function postZabbixApi(method: string, ip: string, prm: any, auth?: string
       }),
     });
     const data = await res.json();
+    console.log(data);
     if (data.result) {
       return { status: "success", result: data.result };
     } else if (data.error) {
