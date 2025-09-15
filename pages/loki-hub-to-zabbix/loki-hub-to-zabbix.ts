@@ -4,10 +4,7 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
   try {
     const ret = await postZabbixApi("apiinfo.version", []);
     if (ret.status === "success") {
-      const ret = await postZabbixApi("user.login", {
-        user: prm.user,
-        password: prm.pw,
-      });
+      const ret = await postZabbixApi("user.login", prm);
       if (ret.status === "success") {
         const version = String(ret.result);
         const headers = new Headers();
