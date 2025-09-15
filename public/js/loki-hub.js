@@ -237,7 +237,7 @@ function testZabbixConnect() {
   if (zabbixPw && zabbixPw.value !== "") {
     pw = zabbixPw.value;
   }
-  const ret = fetch("/loki-hub/zabbix-check", {
+  fetch("/loki-hub/zabbix-check", {
     method: "POST",
     headers: {
       "Content-Type": "application/json-rpc",
@@ -247,8 +247,14 @@ function testZabbixConnect() {
       user: user,
       pw: pw,
     }),
-  });
-  console.log(ret.json());
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Zabbix Version:", data.result);
+    })
+    .catch((error) => {
+      console.error("Error fetching Zabbix version:", error);
+    });
 }
 
 function addZabbix() {}
