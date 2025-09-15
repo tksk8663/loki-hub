@@ -4,7 +4,6 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
   try {
     const ret = await postZabbixApi("apiinfo.version", prm.ip as string, []);
     if (ret.status === "success") {
-      console.log(prm);
       const ret = await postZabbixApi("user.login", prm.ip as string, {
         user: prm.user,
         password: prm.pw,
@@ -57,6 +56,15 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
 
 async function postZabbixApi(method: string, ip: string, prm: any, auth?: string): Promise<any> {
   try {
+    console.log(
+      JSON.stringify({
+        jsonrpc: "2.0",
+        method: method,
+        params: prm,
+        id: 1,
+        auth: auth ? auth : null,
+      })
+    );
     const res = await fetch(`http://${ip}/zabbix/api_jsonrpc.php`, {
       method: "POST",
       headers: {
@@ -71,9 +79,10 @@ async function postZabbixApi(method: string, ip: string, prm: any, auth?: string
       }),
     });
     const data = await res.json();
-    console.log(data);
     if (data.result) {
       return { status: "success", result: data.result };
+    } else if (data.error) {
+      return { status: "fail", error: data.error.message };
     } else {
       return { status: "fail" };
     }
