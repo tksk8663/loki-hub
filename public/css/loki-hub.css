@@ -107,6 +107,7 @@ body {
   width: 320px;
   height: 360px;
   background-color: #320000;
+  user-select: none;
 }
 
 #modal-background > div > div {

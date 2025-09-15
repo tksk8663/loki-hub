@@ -262,11 +262,11 @@ function testZabbixConnect() {
       const checkButton = document.getElementById("connection-check");
       console.log(result.status);
       if (result.status === "success") {
-        checkButton.removeEventListener("click", testZabbixConnect);
         checkButton.innerText = `接続成功！ [v${result.result}]`;
         checkButton.style.backgroundColor = "green";
       } else {
         checkButton.innerText = `接続失敗！`;
+        checkButton.style.backgroundColor = "#0000";
       }
     })
     .then((_data) => {})
