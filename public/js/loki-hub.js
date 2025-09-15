@@ -267,7 +267,6 @@ function testZabbixConnect() {
         checkButton.style.backgroundColor = "green";
       } else {
         checkButton.innerText = `接続失敗！`;
-        checkButton.style = none;
       }
     })
     .then((_data) => {})
