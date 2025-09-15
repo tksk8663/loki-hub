@@ -4,6 +4,7 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
   try {
     const ret = await postZabbixApi("apiinfo.version", prm.ip as string, []);
     const versionNumber = getZabbixVersion(ret.result);
+    const varsionString = String(ret.result);
     if (ret.status === "success") {
       let postPrm;
       if (versionNumber > 5 * 100000) {
@@ -19,10 +20,12 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
       }
       const ret = await postZabbixApi("user.login", prm.ip as string, postPrm);
       if (ret.status === "success") {
-        const version = String(ret.result);
+        const auth = String(ret.result);
+        const exit = await postZabbixApi("user.logout", prm.ip as string, {}, auth);
+        console.log(exit);
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
-        return new Response(JSON.stringify({ status: "success", result: version }), {
+        return new Response(JSON.stringify({ status: "success", result: varsionString }), {
           status: 200,
           headers,
         });
