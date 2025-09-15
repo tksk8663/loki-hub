@@ -3,6 +3,7 @@ import "https://deno.land/std@0.224.0/dotenv/load.ts";
 import { loadConfig } from "./load-config.ts";
 import { welcome } from "./pages/welcome.ts";
 import { lokiDashboard } from "./pages/loki-hub/loki-hub.ts";
+import { checkZabbixConnect } from "./pages/loki-hub-to-zabbix/loki-hub-to-zabbix.ts";
 
 const config = await loadConfig();
 const port = config.port;
@@ -82,8 +83,11 @@ async function handler(req: Request): Promise<Response> {
         return response;
       } else if (path.startsWith("/loki-hub")) {
         const path_suffix = path.replace("/loki-hub", "");
+        const prmData = getprm(prm);
         if (path_suffix === "" || path_suffix === "/dashboard") {
-          return await lokiDashboard(req, getprm(prm));
+          return await lokiDashboard(req, prmData);
+        } else if (path_suffix === "/zabbix-check" && prmData !== undefined) {
+          return await checkZabbixConnect(req, prmData);
         } else {
           return errorResponse(404);
         }
