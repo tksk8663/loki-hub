@@ -2,10 +2,10 @@ import { errorResponse } from "../error.ts";
 
 export async function checkZabbixConnect(_req: Request, prm: { [key: string]: number | string }): Promise<Response> {
   try {
-    const ret = await postZabbixApi("apiinfo.version", []);
+    const ret = await postZabbixApi("apiinfo.version", prm.ip as string, []);
     if (ret.status === "success") {
-      const ret = await postZabbixApi("user.login", {
-        ip: prm.ip,
+      console.log(prm);
+      const ret = await postZabbixApi("user.login", prm.ip as string, {
         user: prm.user,
         password: prm.pw,
       });
@@ -55,9 +55,9 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
     }), //*/
 }
 
-async function postZabbixApi(method: string, prm: any, auth?: string): Promise<any> {
+async function postZabbixApi(method: string, ip: string, prm: any, auth?: string): Promise<any> {
   try {
-    const res = await fetch(`http://${prm.ip}/zabbix/api_jsonrpc.php`, {
+    const res = await fetch(`http://${ip}/zabbix/api_jsonrpc.php`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json-rpc",
