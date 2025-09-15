@@ -70,6 +70,7 @@ async function postZabbixApi(method: string, prm: any, auth?: string): Promise<a
       }),
     });
     const data = await res.json();
+    console.log(data);
     if (data.result) {
       return { status: "success", result: data.result };
     } else {
