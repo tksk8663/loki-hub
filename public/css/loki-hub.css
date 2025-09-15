@@ -105,12 +105,20 @@ body {
   border-radius: 10px;
   padding: 10px;
   width: 320px;
-  height: 330px;
+  height: 360px;
   background-color: #320000;
 }
 
 #modal-background > div > div {
   text-align: center;
+}
+
+#connection-check {
+  width: 120px;
+  border: solid 1px white;
+  border-radius: 5px;
+  margin: 0 auto;
+  cursor: pointer;
 }
 
 .burger {
@@ -123,6 +131,10 @@ body {
   left: -12px;
   top: -16px;
   cursor: pointer;
+}
+
+.spacer {
+  font-size: 8px;
 }
 
 ul {

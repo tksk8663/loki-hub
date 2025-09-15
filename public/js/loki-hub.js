@@ -162,7 +162,7 @@ function zabbixAddModal() {
     mbc.style.display = "";
     const mbcRect = mbc.getBoundingClientRect();
     const modal = mbc.children[0];
-    modal.style.top = `${Math.floor(mbcRect.height - 330) / 2}px`;
+    modal.style.top = `${Math.floor(mbcRect.height - 360) / 2}px`;
     modal.style.left = `${Math.floor(mbcRect.width - 320) / 2}px`;
     const div = document.createElement("div");
     div.style.textAlign = "center";
@@ -203,17 +203,22 @@ function zabbixAddModal() {
     zabbixPw.type = "password";
     zabbixNameDiv.appendChild(zabbixPw);
     // spacer
-    const spacer = document.createElement("div");
-    spacer.innerHTML = "&nbsp;";
-    zabbixNameDiv.appendChild(spacer);
+    const spacer1 = document.createElement("div");
+    spacer1.innerHTML = "&nbsp;";
+    spacer1.classList.add("spacer");
+    zabbixNameDiv.appendChild(spacer1);
     // connection check
     const testDiv = document.createElement("div");
-    const testButton = document.createElement("span");
+    const testButton = document.createElement("div");
     testButton.id = "connection-check";
     testButton.innerText = "接続確認";
     testButton.addEventListener("click", testZabbixConnect);
     testDiv.appendChild(testButton);
     zabbixNameDiv.appendChild(testDiv);
+    const spacer2 = document.createElement("div");
+    spacer2.innerHTML = "&nbsp;";
+    spacer2.classList.add("spacer");
+    zabbixNameDiv.appendChild(spacer2);
     // button
     const buttonDiv = document.createElement("div");
     const addButton = document.createElement("button");
