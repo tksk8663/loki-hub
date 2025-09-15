@@ -266,9 +266,7 @@ function testZabbixConnect() {
         checkButton.innerText = `接続成功！ [${result}]`;
       }
     })
-    .then((data) => {
-      console.log("Zabbix Version:", data.result);
-    })
+    .then((_data) => {})
     .catch((error) => {
       console.error("Error fetching Zabbix version:", error);
     });
