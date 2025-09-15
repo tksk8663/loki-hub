@@ -3,11 +3,21 @@ import { errorResponse } from "../error.ts";
 export async function checkZabbixConnect(_req: Request, prm: { [key: string]: number | string }): Promise<Response> {
   try {
     const ret = await postZabbixApi("apiinfo.version", prm.ip as string, []);
+    const versionNumber = getZabbixVersion(ret.result);
     if (ret.status === "success") {
-      const ret = await postZabbixApi("user.login", prm.ip as string, {
-        user: prm.user,
-        password: prm.pw,
-      });
+      let postPrm;
+      if (versionNumber > 5 * 100000) {
+        postPrm = {
+          username: prm.user,
+          password: prm.pw,
+        };
+      } else {
+        postPrm = {
+          user: prm.user,
+          password: prm.pw,
+        };
+      }
+      const ret = await postZabbixApi("user.login", prm.ip as string, postPrm);
       if (ret.status === "success") {
         const version = String(ret.result);
         const headers = new Headers();
@@ -86,4 +96,9 @@ async function postZabbixApi(method: string, ip: string, prm: any, auth?: string
     console.error(e);
     return { status: "fail", error: e };
   }
+}
+
+function getZabbixVersion(version: string) {
+  const sub = version.split(".");
+  return Number(sub[0]) * 100000 + Number(sub[1]) * 1000 + Number(sub[2]);
 }
