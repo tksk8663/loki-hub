@@ -23,3 +23,5 @@ Deno は厳格なファイルアクセス権限を持つため、実行時には
 
 ```bash
 deno run prd
+
+"prd": "deno run --allow-net --allow-read --allow-write=user.json,pages/dice/data.json,logs --allow-env --watch --no-clear-screen main.ts"
