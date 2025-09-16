@@ -223,9 +223,20 @@ function zabbixAddModal() {
     const buttonDiv = document.createElement("div");
     const addButton = document.createElement("button");
     addButton.innerText = "追加";
+    addButton.className = "btn btn-primary";
     //addButton.addEventListener("click", addZabbix);
     addButton.addEventListener("click", () => alert("未実装！"));
     buttonDiv.appendChild(addButton);
+    const addButtonSpacer = document.createElement("span");
+    addButtonSpacer.innerHTML = "&nbsp;&nbsp;";
+    buttonDiv.appendChild(addButtonSpacer);
+    const cancelButton = document.createElement("button");
+    cancelButton.innerText = "キャンセル";
+    cancelButton.className = "btn btn-secondary";
+    cancelButton.addEventListener("click", (event) => {
+      closeModal(event);
+    });
+    buttonDiv.appendChild(cancelButton);
     zabbixNameDiv.appendChild(buttonDiv);
     modal.appendChild(zabbixNameDiv);
   }
