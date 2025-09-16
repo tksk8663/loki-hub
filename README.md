@@ -22,4 +22,4 @@
 Deno は厳格なファイルアクセス権限を持つため、実行時には以下のように出力先を制限しています：
 
 ```bash
-deno run --allow-net --allow-read --allow-write=./logs main.ts
+deno run prd
