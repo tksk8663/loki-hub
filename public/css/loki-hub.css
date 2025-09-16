@@ -114,6 +114,10 @@ body {
   text-align: center;
 }
 
+#connection-check.disabled {
+  background-color: #222;
+}
+
 #connection-check {
   padding: 2px 10px;
   white-space: nowrap;

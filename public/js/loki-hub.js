@@ -209,11 +209,11 @@ function zabbixAddModal() {
     zabbixNameDiv.appendChild(spacer1);
     // connection check
     const testDiv = document.createElement("div");
-    const testButton = document.createElement("div");
-    testButton.id = "connection-check";
-    testButton.innerText = "接続確認";
-    testButton.addEventListener("click", testZabbixConnect);
-    testDiv.appendChild(testButton);
+    const checkButton = document.createElement("div");
+    checkButton.id = "connection-check";
+    checkButton.innerText = "接続確認";
+    checkButton.addEventListener("click", testZabbixConnect);
+    testDiv.appendChild(checkButton);
     zabbixNameDiv.appendChild(testDiv);
     const spacer2 = document.createElement("div");
     spacer2.innerHTML = "&nbsp;";
@@ -243,48 +243,67 @@ function zabbixAddModal() {
 }
 
 function testZabbixConnect() {
-  const zabbixIp = document.getElementById("zabbix-ip");
-  let ip = "127.0.0.1";
-  if (zabbixIp && /^\d+\.\d+\.\d+\.\d+$/.test(zabbixIp)) {
-    ip = zabbixIp.value;
-  }
-  const zabbixUser = document.getElementById("zabbix-user");
-  let user = "Admin";
-  if (zabbixUser && zabbixUser.value !== "") {
-    user = zabbixUser.value;
-  }
-  const zabbixPw = document.getElementById("zabbix-pw");
-  let pw = "zabbix";
-  if (zabbixPw && zabbixPw.value !== "") {
-    pw = zabbixPw.value;
-  }
-  fetch("/loki-hub/zabbix-check", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      ip: ip,
-      user: user,
-      pw: pw,
-    }),
-  })
-    .then(async (response) => {
-      const result = await response.json();
-      const checkButton = document.getElementById("connection-check");
-      console.log(result.status);
-      if (result.status === "success") {
-        checkButton.innerText = `接続成功！ [v${result.result}]`;
-        checkButton.style.backgroundColor = "green";
-      } else {
-        checkButton.innerText = `接続失敗！`;
-        checkButton.style.backgroundColor = "#0000";
-      }
+  try {
+    const checkButton = document.getElementById("connection-check");
+    checkButton.innerText = `確認中...`;
+    checkButton.className = "disabled";
+    checkButton.removeEventListener("click", testZabbixConnect);
+    const zabbixIp = document.getElementById("zabbix-ip");
+    let ip = "127.0.0.1";
+    if (zabbixIp && /^\d+\.\d+\.\d+\.\d+$/.test(zabbixIp)) {
+      ip = zabbixIp.value;
+    }
+    const zabbixUser = document.getElementById("zabbix-user");
+    let user = "Admin";
+    if (zabbixUser && zabbixUser.value !== "") {
+      user = zabbixUser.value;
+    }
+    const zabbixPw = document.getElementById("zabbix-pw");
+    let pw = "zabbix";
+    if (zabbixPw && zabbixPw.value !== "") {
+      pw = zabbixPw.value;
+    }
+    fetch("/loki-hub/zabbix-check", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ip: ip,
+        user: user,
+        pw: pw,
+      }),
     })
-    .then((_data) => {})
-    .catch((error) => {
-      console.error("Error fetching Zabbix version:", error);
-    });
+      .then(async (response) => {
+        const result = await response.json();
+        const checkButton = document.getElementById("connection-check");
+        checkButton.className = "";
+        console.log(result.status);
+        if (result.status === "success") {
+          checkButton.innerText = `接続成功！ [v${result.result}]`;
+          checkButton.style.backgroundColor = "green";
+        } else if (result.error === "Cannot access to Zabbix.") {
+          checkButton.innerText = `接続失敗！`;
+          checkButton.style.backgroundColor = "";
+        } else if (result.error === "Login to Zabbix is failing.") {
+          checkButton.innerText = `認証失敗！`;
+          checkButton.style.backgroundColor = "";
+        } else {
+          checkButton.innerText = `エラー！`;
+          checkButton.style.backgroundColor = "";
+        }
+        checkButton.addEventListener("click", testZabbixConnect);
+      })
+      .then((_data) => {})
+      .catch((error) => {
+        console.error("Error fetching Zabbix version:", error);
+      });
+  } catch (e) {
+    const checkButton = document.getElementById("connection-check");
+    checkButton.className = "";
+    checkButton.addEventListener("click", testZabbixConnect);
+    console.error(e);
+  }
 }
 
 function addZabbix() {}

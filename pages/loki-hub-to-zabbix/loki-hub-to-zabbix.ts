@@ -1,9 +1,9 @@
 export async function checkZabbixConnect(_req: Request, prm: { [key: string]: number | string }): Promise<Response> {
   try {
-    const ret = await postZabbixApi("apiinfo.version", prm.ip as string, []);
-    const versionNumber = getZabbixVersion(ret.result);
-    const varsionString = String(ret.result);
-    if (ret.status === "success") {
+    const version = await postZabbixApi("apiinfo.version", prm.ip as string, []);
+    if (version.status === "success") {
+      const versionNumber = getZabbixVersion(version.result);
+      const varsionString = String(version.result);
       let postPrm;
       if (versionNumber > 5 * 100000) {
         postPrm = {
@@ -16,9 +16,9 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
           password: prm.pw,
         };
       }
-      const ret = await postZabbixApi("user.login", prm.ip as string, postPrm);
-      if (ret.status === "success") {
-        const auth = String(ret.result);
+      const login = await postZabbixApi("user.login", prm.ip as string, postPrm);
+      if (login.status === "success") {
+        const auth = String(login.result);
         const exit = await postZabbixApi("user.logout", prm.ip as string, {}, auth);
         console.debug(exit);
         const headers = new Headers();
@@ -30,7 +30,7 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
       } else {
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
-        return new Response(JSON.stringify({ status: "fail", error: "Cannot access to Zabbix." }), {
+        return new Response(JSON.stringify({ status: "fail", error: "Login to Zabbix is failing." }), {
           status: 401,
           headers,
         });
