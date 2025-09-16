@@ -1,5 +1,6 @@
 import { errorResponse } from "../error.ts";
 import { template, colors } from "../common.ts";
+import log from "../../logger.ts";
 
 export function lokiDashboard(_req: Request, _prm: { [key: string]: number | string } | undefined): Response {
   try {
@@ -101,8 +102,8 @@ export function lokiDashboard(_req: Request, _prm: { [key: string]: number | str
       status: 200,
       headers: { "Content-Type": "text/html" },
     });
-  } catch (e) {
-    console.error(e);
+  } catch (e: any) {
+    log.error(e.stack);
     return errorResponse(500);
   }
 }

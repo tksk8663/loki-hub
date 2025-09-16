@@ -4,6 +4,7 @@ import { loadConfig } from "./load-config.ts";
 import { welcome } from "./pages/welcome.ts";
 import { lokiDashboard } from "./pages/loki-hub/loki-hub.ts";
 import { checkZabbixConnect } from "./pages/loki-hub-to-zabbix/loki-hub-to-zabbix.ts";
+import log from "./logger.ts";
 
 const config = await loadConfig();
 const port = config.port;
@@ -21,7 +22,7 @@ try {
 } catch (_e) {
   throw new Error("Unsupported OS");
 }
-console.log(`🔄 Server restarting at ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`);
+log.info(`🔄 Server restarting at ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`);
 const clients = new Set<WebSocket>();
 
 async function handler(req: Request): Promise<Response> {
@@ -71,12 +72,12 @@ async function handler(req: Request): Promise<Response> {
           if (data) {
             if (data.page == "loki-hub") {
             } else {
-              console.warn("unKnown data resive...");
-              console.warn(JSON.stringify(data));
+              log.warn("unKnown data resive...");
+              log.warn(JSON.stringify(data));
             }
           } else {
-            console.warn("unKnown data resive...");
-            console.warn(JSON.stringify(event));
+            log.warn("unKnown data resive...");
+            log.warn(JSON.stringify(event));
           }
         };
         //socket.onclose = () => console.log("WebSocket closed");
@@ -97,9 +98,9 @@ async function handler(req: Request): Promise<Response> {
       }
     } catch (e) {
       const data = getprm(prm);
-      console.error("request to: " + path);
-      console.error(JSON.stringify(data));
-      console.error(e);
+      log.error("request to: " + path);
+      log.error(JSON.stringify(data));
+      log.error((e as any).stack);
       if (String(e).includes("NotFound:")) {
         return errorResponse(404);
       } else {
@@ -107,8 +108,8 @@ async function handler(req: Request): Promise<Response> {
       }
     }
   } catch (e) {
-    console.error("request to: " + req.url);
-    console.error(e);
+    log.error("request to: " + req.url);
+    log.error((e as any).stack);
     if (String(e).includes("NotFound:")) {
       return errorResponse(404);
     } else {

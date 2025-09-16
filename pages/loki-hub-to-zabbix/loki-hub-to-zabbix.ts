@@ -1,8 +1,16 @@
+import log from "../../logger.ts";
+
+interface ZabbixConnectResponse {
+  status: "success" | "fail";
+  result?: string; // バージョン
+  error?: string;
+}
+
 export async function checkZabbixConnect(_req: Request, prm: { [key: string]: number | string }): Promise<Response> {
   try {
     const version = await postZabbixApi("apiinfo.version", prm.ip as string, []);
     if (version.status === "success") {
-      const versionNumber = getZabbixVersion(version.result);
+      const versionNumber = getZabbixVersion(version.result!);
       const varsionString = String(version.result);
       let postPrm;
       if (versionNumber > 5 * 100000) {
@@ -20,7 +28,7 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
       if (login.status === "success") {
         const auth = String(login.result);
         const exit = await postZabbixApi("user.logout", prm.ip as string, {}, auth);
-        console.debug(exit);
+        log.debug(JSON.stringify(exit));
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
         return new Response(JSON.stringify({ status: "success", result: varsionString }), {
@@ -43,8 +51,8 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
         headers,
       });
     }
-  } catch (e) {
-    console.error(e);
+  } catch (e: any) {
+    log.error(e.stack);
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
     return new Response(JSON.stringify({ status: "fail", error: "Any server error." }), {
@@ -52,20 +60,9 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
       headers,
     });
   }
-
-  /*body: JSON.stringify({
-      jsonrpc: "2.0",
-      method: "user.login",
-      params: {
-        user: user,
-        password: pw,
-      },
-      id: 1,
-      auth: null,
-    }), //*/
 }
 
-async function postZabbixApi(method: string, ip: string, prm: any, auth?: string): Promise<any> {
+async function postZabbixApi(method: string, ip: string, prm: any, auth?: string): Promise<ZabbixConnectResponse> {
   try {
     const requestBody = {
       jsonrpc: "2.0",
@@ -83,7 +80,6 @@ async function postZabbixApi(method: string, ip: string, prm: any, auth?: string
       body: JSON.stringify(requestBody),
     });
     const data = await res.json();
-    console.debug(data);
     if (data.result) {
       return { status: "success", result: data.result };
     } else if (data.error) {
@@ -91,9 +87,9 @@ async function postZabbixApi(method: string, ip: string, prm: any, auth?: string
     } else {
       return { status: "fail" };
     }
-  } catch (e) {
-    console.error(e);
-    return { status: "fail", error: e };
+  } catch (e: any) {
+    log.error(e.stack);
+    return { status: "fail", error: e.stack };
   }
 }
 
