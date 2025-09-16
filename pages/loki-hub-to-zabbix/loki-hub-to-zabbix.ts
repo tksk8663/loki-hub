@@ -13,7 +13,7 @@ export async function checkZabbixConnect(_req: Request, prm: { [key: string]: nu
       const versionNumber = getZabbixVersion(version.result!);
       const varsionString = String(version.result);
       let postPrm;
-      if (versionNumber > 5 * 100000) {
+      if (versionNumber >= getZabbixVersion("5.0.0")) {
         postPrm = {
           username: prm.user,
           password: prm.pw,
@@ -95,5 +95,5 @@ async function postZabbixApi(method: string, ip: string, prm: any, auth?: string
 
 function getZabbixVersion(version: string) {
   const sub = version.split(".");
-  return Number(sub[0]) * 100000 + Number(sub[1]) * 1000 + Number(sub[2]);
+  return Number(sub[0]) * 100000 + Number(sub[1] ?? 0) * 1000 + Number(sub[2] ?? 0);
 }
