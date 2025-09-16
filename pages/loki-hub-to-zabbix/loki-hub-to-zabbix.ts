@@ -75,8 +75,6 @@ async function postZabbixApi(method: string, ip: string, prm: any, auth?: string
       auth: auth ?? null,
     };
 
-    console.debug("実際に送るJSON:", JSON.stringify(requestBody));
-
     const res = await fetch(`http://${ip}/zabbix/api_jsonrpc.php`, {
       method: "POST",
       headers: {
