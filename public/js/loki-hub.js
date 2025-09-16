@@ -233,7 +233,9 @@ function zabbixAddModal() {
     const cancelButton = document.createElement("button");
     cancelButton.innerText = "キャンセル";
     cancelButton.className = "btn btn-secondary";
-    cancelButton.addEventListener("click", closeModal);
+    cancelButton.addEventListener("click", () => {
+      closeModal();
+    });
     buttonDiv.appendChild(cancelButton);
     zabbixNameDiv.appendChild(buttonDiv);
     modal.appendChild(zabbixNameDiv);
