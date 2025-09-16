@@ -1,4 +1,4 @@
-import { errorResponse } from "./pages/error.ts";
+import { errorResponse } from "./error.ts";
 import "https://deno.land/std@0.224.0/dotenv/load.ts";
 import { loadConfig } from "./load-config.ts";
 import { welcome } from "./pages/welcome.ts";
