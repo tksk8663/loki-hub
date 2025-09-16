@@ -233,9 +233,7 @@ function zabbixAddModal() {
     const cancelButton = document.createElement("button");
     cancelButton.innerText = "キャンセル";
     cancelButton.className = "btn btn-secondary";
-    cancelButton.addEventListener("click", (event) => {
-      closeModal(event);
-    });
+    cancelButton.addEventListener("click", closeModal);
     buttonDiv.appendChild(cancelButton);
     zabbixNameDiv.appendChild(buttonDiv);
     modal.appendChild(zabbixNameDiv);
@@ -292,7 +290,7 @@ function addZabbix() {}
 function closeModal(event) {
   const mbc = document.getElementById("modal-background");
   if (mbc) {
-    if (event.target.id === "modal-background") {
+    if (event === undefined || event.target.id === "modal-background") {
       mbc.style.display = "none";
       mbc.children[0].innerHTML = "";
     }
