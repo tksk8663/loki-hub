@@ -1,5 +1,5 @@
-import { errorResponse } from "../error.ts";
-import { template, colors } from "../common.ts";
+import { errorResponse } from "../../error.ts";
+import { template, colors } from "../../common.ts";
 import log from "../../logger.ts";
 
 export function lokiDashboard(_req: Request, _prm: { [key: string]: number | string } | undefined): Response {
