@@ -90,6 +90,7 @@ export function lokiDashboard(_req: Request, _prm: { [key: string]: number | str
   </ul>
   <div id="zabbix-list-burger-menu" style="display: none;">
     <ul>
+      <li><span id="list-reload">再読み込み</span></li>
       <li><span id="add-zabbix-server">Zabbix Serverを追加</span></li>
     </ul>
   </div>

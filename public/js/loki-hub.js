@@ -108,27 +108,18 @@ if (window.location.pathname === "/loki-hub/dashboard" || window.location.pathna
       }
       const zlb = document.getElementById("zabbix-list-burger");
       if (zlb) {
-        zlb.removeEventListener("click", function (event) {
-          zabbixListBurger(event);
-        });
         zlb.addEventListener("click", function (event) {
           zabbixListBurger(event);
         });
       }
       const azs = document.getElementById("add-zabbix-server");
       if (azs) {
-        azs.removeEventListener("click", function (event) {
-          zabbixAddModal(event);
-        });
-        azs.addEventListener("click", function (event) {
+        azs.parentElement.addEventListener("click", function (event) {
           zabbixAddModal(event);
         });
       }
       const mbc = document.getElementById("modal-background");
       if (mbc) {
-        mbc.removeEventListener("click", function (event) {
-          closeModal(event);
-        });
         mbc.addEventListener("click", function (event) {
           closeModal(event);
         });

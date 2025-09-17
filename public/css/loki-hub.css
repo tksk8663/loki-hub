@@ -85,8 +85,18 @@ body {
   user-select: none;
 }
 
-#zabbix-list-burger-menu span {
+#zabbix-list-burger-menu ul {
+  padding-left: 0;
+}
+
+#zabbix-list-burger-menu li {
   cursor: pointer;
+  list-style-type: none;
+  padding-left: 4px;
+}
+
+#zabbix-list-burger-menu li:hover {
+  background-color: #fff5;
 }
 
 #modal-background {
